@@ -1,0 +1,40 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
+const knex = require('knex')
+
+const register = require('./Controllers/handleRegister.js')
+const signin = require('./Controllers/signin.js')
+const profile = require('./Controllers/getProfile.js')
+const image = require('./Controllers/image.js')
+
+const db = knex({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    user : 'postgres',
+    password : 'tjrapper199',
+    database : 'postgres'
+  }
+});
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(cors());
+
+app.get('/', (req,res) => {
+	res.send(dataBase.users);
+})
+
+app.post('/signin', (req,res) => { signin.signinModule(req,res,db,bcrypt) })
+app.post('/register', (req,res) => { register.handleRegister(req,res,db,bcrypt) })
+app.get('/profile/:id', (req,res) => {profile.getProfileModule(req,res,db)})
+app.put('/image', (req,res) => {image.imageModule(req,res,db)} )
+app.post('/imageUrl', (req,res) => {image.handleApiCall(req,res)} )
+
+
+app.listen(3001, () => {
+	console.log('app is running at port 3001');
+})
