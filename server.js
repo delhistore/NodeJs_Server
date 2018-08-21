@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/', (req,res) => {
-	res.send(dataBase.users);
+	res.send('it is working');
 })
 
 app.post('/signin', (req,res) => { signin.signinModule(req,res,db,bcrypt) })
